@@ -43,6 +43,10 @@ public class Message {
         return UserCache.getInstance().get(userId);
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public int getChannelId() {
         return channelId;
     }

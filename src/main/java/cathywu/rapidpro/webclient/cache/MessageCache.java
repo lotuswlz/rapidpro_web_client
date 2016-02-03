@@ -33,6 +33,9 @@ public class MessageCache {
     }
 
     public void saveMessage(Message message) {
+        if (message.getUser() == null) {
+            UserCache.getInstance().addUser(message.getUserId());
+        }
         String userId = message.getUser().getUserId();
         List<Message> messages = userMessageMap.get(userId);
         if (messages == null) {

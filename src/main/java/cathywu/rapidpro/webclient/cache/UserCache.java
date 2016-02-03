@@ -29,4 +29,21 @@ public class UserCache {
     public User get(String userId) {
         return userMap.get(userId);
     }
+
+    public void addUser(String phoneNumber) {
+        User user = new User();
+        user.setPhoneNumber(phoneNumber);
+        if (!userMap.containsKey(user.getUserId())) {
+            userMap.put(user.getUserId(), user);
+        }
+    }
+
+    public void addUser(String phoneNumber, String name) {
+        User user = new User();
+        user.setPhoneNumber(phoneNumber);
+        if (!userMap.containsKey(user.getUserId())) {
+            user.setName(name);
+            userMap.put(user.getUserId(), user);
+        }
+    }
 }

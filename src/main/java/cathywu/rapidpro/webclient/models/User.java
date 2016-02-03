@@ -9,22 +9,14 @@ import java.util.List;
  * @since 2/3/16
  */
 public class User {
-    private String userId;
     private String phoneNumber;
     private String name;
 
     public String getUserId() {
-        if (userId == null && phoneNumber != null) {
-            if (phoneNumber.length() > 11) {
+        if (phoneNumber != null && phoneNumber.length() > 11) {
                 return phoneNumber.substring(phoneNumber.length() - 11);
-            }
-            return phoneNumber;
         }
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+        return phoneNumber;
     }
 
     public String getPhoneNumber() {
@@ -44,6 +36,6 @@ public class User {
     }
 
     public List<Message> getMessages() {
-        return MessageCache.getInstance().get(userId);
+        return MessageCache.getInstance().get(getUserId());
     }
 }
