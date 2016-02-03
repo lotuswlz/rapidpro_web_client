@@ -14,7 +14,7 @@ public class Message {
     @JsonProperty("text")
     private String content;
     @JsonProperty("to")
-    private String userId;
+    private String phoneNumber;
     @JsonProperty("channel")
     private int channelId;
     private Direction direction;
@@ -27,8 +27,8 @@ public class Message {
         this.content = content;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setDirection(int direction) {
@@ -40,11 +40,18 @@ public class Message {
     }
 
     public User getUser() {
-        return UserCache.getInstance().get(userId);
+        return UserCache.getInstance().get(getUserId());
     }
 
     public String getUserId() {
-        return userId;
+        if (phoneNumber != null && phoneNumber.length() > 11) {
+            return phoneNumber.substring(phoneNumber.length() - 11);
+        }
+        return phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public int getChannelId() {
@@ -72,7 +79,7 @@ public class Message {
         return "Message{" +
                 "msgId='" + msgId + '\'' +
                 ", content='" + content + '\'' +
-                ", userId='" + userId + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", channelId=" + channelId +
                 ", direction=" + direction +
                 '}';
@@ -83,7 +90,7 @@ public class Message {
         message.setChannelId(Configurations.getInstance().getChannel().getId());
         message.setContent(content);
         message.setMsgId(msgId);
-        message.setUserId(userId);
+        message.setPhoneNumber(userId);
         message.setDirection(Direction.TO_USER);
         return message;
     }
