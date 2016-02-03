@@ -12,6 +12,7 @@
 
     <context:annotation-config />
     <context:component-scan base-package="cathywu.rapidpro" />
+    <context:property-placeholder location="classpath:settings.properties" />
 
     <mvc:annotation-driven/>
 
@@ -20,6 +21,8 @@
         <property name="prefix" value="/pages/" />
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean class="cathywu.rapidpro.webclient.common.Configurations" id="configurations" factory-method="getInstance" init-method="getInstance"/>
 
 
 </beans>
