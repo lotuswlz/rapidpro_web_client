@@ -48,6 +48,8 @@ public class MessageController {
             System.out.println("[Error] " + e.getMessage());
             return e.getMessage();
         }
+
+        //TODO: add message with direction=FROM_USER to message cache (Notice: msgId should be extracted from response)
     }
 
 }
