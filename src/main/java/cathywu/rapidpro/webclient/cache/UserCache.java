@@ -30,20 +30,17 @@ public class UserCache {
         return userMap.get(userId);
     }
 
-    public void addUser(String phoneNumber) {
-        User user = new User();
-        user.setPhoneNumber(phoneNumber);
-        if (!userMap.containsKey(user.getUserId())) {
-            userMap.put(user.getUserId(), user);
-        }
+    public User addUser(String phoneNumber) {
+        return addUser(phoneNumber, null);
     }
 
-    public void addUser(String phoneNumber, String name) {
+    public User addUser(String phoneNumber, String name) {
         User user = new User();
         user.setPhoneNumber(phoneNumber);
         if (!userMap.containsKey(user.getUserId())) {
             user.setName(name);
             userMap.put(user.getUserId(), user);
         }
+        return userMap.get(user.getUserId());
     }
 }

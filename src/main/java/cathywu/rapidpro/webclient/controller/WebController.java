@@ -1,6 +1,10 @@
 package cathywu.rapidpro.webclient.controller;
 
+import cathywu.rapidpro.webclient.cache.MessageCache;
+import cathywu.rapidpro.webclient.cache.UserCache;
 import cathywu.rapidpro.webclient.common.Configurations;
+import cathywu.rapidpro.webclient.models.Message;
+import cathywu.rapidpro.webclient.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author lzwu
  * @since 2/3/16
  */
 @Controller
-public class MainController {
+public class WebController {
 
     @Autowired
     private Configurations configurations;
@@ -33,6 +38,29 @@ public class MainController {
     @RequestMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String loginSubmit(@RequestParam("mobile") String phoneNumber, HttpServletRequest request) {
+        User user = UserCache.getInstance().addUser(phoneNumber);
+        request.getSession().setAttribute("userId", user.getUserId());
+        request.getSession().setAttribute("phoneNumber", user.getPhoneNumber());
+        return "redirect:chat";
+    }
+
+    @RequestMapping("/chat")
+    public String chat() {
+        return "chat";
+    }
+
+    @RequestMapping("/show_messages")
+    public String showMessages(HttpServletRequest request) {
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId != null && !userId.trim().equals("")) {
+            List<Message> messages = MessageCache.getInstance().get(userId);
+            request.getSession().setAttribute("messages", messages);
+        }
+        return "messages";
     }
 
     @RequestMapping("/settings")

@@ -6,13 +6,12 @@ import cathywu.rapidpro.webclient.common.HttpClient;
 import cathywu.rapidpro.webclient.common.Response;
 import cathywu.rapidpro.webclient.models.Message;
 import cathywu.rapidpro.webclient.receiptsender.ReceiptSender;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,22 +33,34 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/reply", method = RequestMethod.POST)
-    public String reply(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("content") String content) {
+    public String reply(@RequestBody Map<String, Object> params) {
         String url = Configurations.getInstance().getRapidProReceivedUrl();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("from", phoneNumber);
-        params.put("text", content);
+        String phoneNumber = (String) params.get("from");
+        String content = (String) params.get("text");
 
         try {
             Response response = HttpClient.getInstance().send(url, params, RequestMethod.POST);
-            System.out.println("[Response] code: " + response.getResponseCode() + ", message: " + response.getMessage());
+            String responseMsg = response.getMessage();
+            String msgId = responseMsg.replaceAll("^SMS Accepted: (\\d+)]$", "$1");
+            Message message = Message.createMessageFromUser(phoneNumber, msgId, content);
+            MessageCache.getInstance().saveMessage(message);
             return "[Response] code: " + response.getResponseCode() + ", message: " + response.getMessage();
         } catch (IOException e) {
             System.out.println("[Error] " + e.getMessage());
             return e.getMessage();
         }
 
-        //TODO: add message with direction=FROM_USER to message cache (Notice: msgId should be extracted from response)
+        //TODO: while sending Chinese words to rapid pro, it will raise an exception,
+        //TODO: but something weird is the message has been sent to rapid pro and could be display on its record page.
+    }
+
+    @RequestMapping("/messages")
+    public List<Message> list(HttpServletRequest request) {
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (userId != null && !userId.trim().equals("")) {
+            return MessageCache.getInstance().get(userId);
+        }
+        return new ArrayList<Message>();
     }
 
 }

@@ -6,13 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="include/head.jsp"%>
 <html>
 <head>
     <title>Sign In</title>
 </head>
 <body>
 <h3>Sign In</h3>
-<form action="login" method="post">
+<form action="<%=basePath%>/login" method="post">
   <label>Phone Number:</label><input type="text" name="mobile"/><br/> &nbsp; <input type="submit" value="Sign Up"/>
 </form>
 </body>

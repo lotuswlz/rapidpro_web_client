@@ -4,6 +4,9 @@ import cathywu.rapidpro.webclient.cache.UserCache;
 import cathywu.rapidpro.webclient.common.Configurations;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author lzwu
  * @since 2/3/16
@@ -18,6 +21,9 @@ public class Message {
     @JsonProperty("channel")
     private int channelId;
     private Direction direction;
+    private Date datetime;
+
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public void setMsgId(String msgId) {
         this.msgId = msgId;
@@ -85,6 +91,21 @@ public class Message {
                 '}';
     }
 
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public String getDatetimeStr() {
+        if (this.datetime == null) {
+            return "";
+        }
+        return SIMPLE_DATE_FORMAT.format(this.datetime);
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
     public static Message createMessageToUser(String userId, String msgId, String content) {
         Message message = new Message();
         message.setChannelId(Configurations.getInstance().getChannel().getId());
@@ -92,6 +113,18 @@ public class Message {
         message.setMsgId(msgId);
         message.setPhoneNumber(userId);
         message.setDirection(Direction.TO_USER);
+        message.setDatetime(new Date());
+        return message;
+    }
+
+    public static Message createMessageFromUser(String userId, String msgId, String content) {
+        Message message = new Message();
+        message.setChannelId(Configurations.getInstance().getChannel().getId());
+        message.setContent(content);
+        message.setMsgId(msgId);
+        message.setPhoneNumber(userId);
+        message.setDirection(Direction.FROM_USER);
+        message.setDatetime(new Date());
         return message;
     }
 }
