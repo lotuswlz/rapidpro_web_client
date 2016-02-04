@@ -49,8 +49,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
-    public String saveSettings(@RequestParam("channelId") int channelId, @RequestParam("channelUUID") String channelUUID, @RequestParam("channelName") String channelName) {
+    public String saveSettings(@RequestParam("channelId") int channelId, @RequestParam("channelUUID") String channelUUID, @RequestParam("channelName") String channelName, @RequestParam("rapidProUrl") String rapidProUrl) {
         configurations.setChannel(channelId, channelUUID, channelName);
+        configurations.setRapidProUrl(rapidProUrl);
         return "redirect:settings";
     }
 }

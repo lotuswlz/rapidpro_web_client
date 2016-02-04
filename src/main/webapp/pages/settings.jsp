@@ -23,11 +23,11 @@
 <form action="<%=basePath%>/settings" method="post">
 <table class="tb">
   <tr>
-    <td>URL:</td>
-    <td><%=request.getAttribute("rapidProUrl")%></td>
+    <td>RapidPro URL:</td>
+    <td><input type="text" name="rapidProUrl" value="<%=request.getAttribute("rapidProUrl")%>"/></td>
   </tr>
   <tr>
-    <td>URL:</td>
+    <td>Receiver URL:</td>
     <td><%=request.getAttribute("rapidProReceivedUrl")%></td>
   </tr>
   <tr>
@@ -49,5 +49,8 @@
   </tr>
 </table>
 </form>
+<p>
+  <a href="<%=basePath%>">Home</a>
+</p>
 </body>
 </html>

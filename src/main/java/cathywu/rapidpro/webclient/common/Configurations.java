@@ -15,10 +15,10 @@ public class Configurations {
     @Value("${RAPID_PRO_URL}")
     private String rapidProUrl;
 
-    @Value("${RAPID_PRO_URL}${RAPID_PRO_RECEIVED_URL}")
+    @Value("${RAPID_PRO_RECEIVED_URL}")
     private String rapidProReceivedUrl;
 
-    @Value("${RAPID_PRO_URL}${RAPID_PRO_SENT_URL}")
+    @Value("${RAPID_PRO_SENT_URL}")
     private String rapidProDeliveryFlagUrl;
 
     private Channel channel;
@@ -45,11 +45,21 @@ public class Configurations {
     }
 
     public String getRapidProReceivedUrl() {
-        return rapidProReceivedUrl + this.channel.getUuid();
+        if (this.channel == null) {
+            return "";
+        }
+        return rapidProUrl + rapidProReceivedUrl + this.channel.getUuid() + "/";
     }
 
     public String getRapidProDeliveryFlagUrl() {
-        return rapidProDeliveryFlagUrl + this.channel.getUuid();
+        if (this.channel == null) {
+            return "";
+        }
+        return rapidProUrl + rapidProDeliveryFlagUrl + this.channel.getUuid() + "/";
+    }
+
+    public void setRapidProUrl(String rapidProUrl) {
+        this.rapidProUrl = rapidProUrl;
     }
 
     public Channel getChannel() {

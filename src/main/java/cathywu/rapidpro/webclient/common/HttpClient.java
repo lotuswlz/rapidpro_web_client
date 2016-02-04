@@ -32,6 +32,7 @@ public class HttpClient {
     public Response send(String link, Map<String, Object> params, RequestMethod method) throws IOException {
         String queryString = buildParam(params);
         URL url = new URL(link + queryString);
+        System.out.println("...start to send request to " + link + queryString);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod(method.name());
         BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
