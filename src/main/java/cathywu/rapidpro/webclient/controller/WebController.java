@@ -29,6 +29,11 @@ public class WebController {
         return "home";
     }
 
+    @RequestMapping("/home")
+    public String homePage() {
+        return "home";
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(HttpServletRequest request) {
         request.setAttribute("message", "Account register successfully");
