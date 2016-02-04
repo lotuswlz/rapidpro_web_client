@@ -50,7 +50,7 @@
 </table>
 </form>
 <p>
-  <a href="<%=basePath%>">Home</a>
+  <a href="<%=basePath%>/home">Home</a>
 </p>
 </body>
 </html>
