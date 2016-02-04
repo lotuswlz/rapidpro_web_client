@@ -44,4 +44,8 @@ public class MessageCache {
         messages.add(message);
         userMessageMap.put(userId, messages);
     }
+
+    public Map<String, List<Message>> getUserMessageMap() {
+        return userMessageMap;
+    }
 }

@@ -63,4 +63,9 @@ public class MessageController {
         return new ArrayList<Message>();
     }
 
+    @RequestMapping("/allMsgs")
+    public Map<String, List<Message>> allMessages() {
+        return MessageCache.getInstance().getUserMessageMap();
+    }
+
 }
