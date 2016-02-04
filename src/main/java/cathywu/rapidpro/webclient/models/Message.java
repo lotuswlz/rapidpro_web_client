@@ -2,6 +2,7 @@ package cathywu.rapidpro.webclient.models;
 
 import cathywu.rapidpro.webclient.cache.UserCache;
 import cathywu.rapidpro.webclient.common.Configurations;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.text.SimpleDateFormat;
@@ -45,6 +46,7 @@ public class Message {
         this.direction = direction;
     }
 
+    @JsonIgnore
     public User getUser() {
         return UserCache.getInstance().get(getUserId());
     }
