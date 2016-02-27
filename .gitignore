@@ -1,0 +1,12 @@
+.idea/
+.gradle/
+build/
+gradle/
+groups.log
+out/
+.DS_Store
+**/.DS_Store
+src/main/java/cathywu/rapidpro/webclient/common/InstallCert.java
+jssecacerts
+*.log
+*.log.*
