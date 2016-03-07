@@ -14,7 +14,7 @@
     <script src="<%=basePath%>/static/js/jquery.min.js"></script>
 </head>
 <body>
-<h1>Receiver (<%=session.getAttribute("phoneNumber")%>)</h1>
+<h1>Receiver (<%=session.getAttribute("phoneNumber")%>) &nbsp; <input type="button" id="clearHistory" value="Clear History"/></h1>
 <iframe src="<%=basePath%>/show_messages" width="90%" height="70%"></iframe>
 <p>&nbsp;</p>
 <input type="hidden" id="phoneNumber" name="phoneNumber" value="<%=session.getAttribute("phoneNumber")%>"/>
@@ -41,6 +41,25 @@
             dataType: 'json',
             data: JSON.stringify(dataJson),
             success: function (result) {
+                location.reload();
+                console.log(result)
+            },
+            error: function(xhr, status, error) {
+                location.reload();
+                console.log(xhr.responseText)
+            }
+        });
+
+    });
+
+    $("#clearHistory").click(function(){
+        $.ajax({
+            type: "DELETE",
+            url: basePath + "/messages/" + $('#phoneNumber').val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                alert("123");
                 location.reload();
                 console.log(result)
             },

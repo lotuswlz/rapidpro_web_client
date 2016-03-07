@@ -48,4 +48,10 @@ public class MessageCache {
     public Map<String, List<Message>> getUserMessageMap() {
         return userMessageMap;
     }
+
+    public void clear(String userId) {
+        if (userMessageMap.containsKey(userId)) {
+            userMessageMap.remove(userId);
+        }
+    }
 }

@@ -68,4 +68,18 @@ public class MessageController {
         return MessageCache.getInstance().getUserMessageMap();
     }
 
+    @RequestMapping(value = "/messages/{userId}", method = RequestMethod.DELETE)
+    public void clearMessage(@PathVariable String userId) {
+        userId = getPhoneNumber(userId);
+        System.out.println("clear cache for " + userId);
+        MessageCache.getInstance().clear(userId);
+    }
+
+    private String getPhoneNumber(String phoneNumber) {
+        if (phoneNumber != null && phoneNumber.length() > 11) {
+            return phoneNumber.substring(phoneNumber.length() - 11);
+        }
+        return phoneNumber;
+    }
+
 }
